@@ -2214,7 +2214,7 @@ void idWeapon::PresentWeapon( bool showViewModel ) {
 	if ( worldModel.GetEntity() && worldModel.GetEntity()->GetRenderEntity() ) {
 		// deal with the third-person visible world model
 		// don't show shadows of the world model in first person
-		if ( gameLocal.isMultiplayer || g_showPlayerShadow.GetBool() || pm_thirdPerson.GetBool() ) {
+		if ( gameLocal.isMultiplayer || ( g_showPlayerShadow.GetBool() && owner->GetInfluenceLevel() <= INFLUENCE_LEVEL3 ) || pm_thirdPerson.GetBool() ) {
 			worldModel.GetEntity()->GetRenderEntity()->suppressShadowInViewID	= 0;
 		} else {
 			worldModel.GetEntity()->GetRenderEntity()->suppressShadowInViewID	= owner->entityNumber+1;

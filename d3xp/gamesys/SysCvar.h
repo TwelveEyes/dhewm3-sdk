@@ -257,6 +257,8 @@ extern idCVar	g_grabberDamping;
 extern idCVar	g_xp_bind_run_once;
 #endif
 
+extern idCVar   g_showSubtitles;
+
 extern idCVar	aas_test;
 extern idCVar	aas_showAreas;
 extern idCVar	aas_showPath;

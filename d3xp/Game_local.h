@@ -508,6 +508,10 @@ public:
 	void					SetGibTime( int _time ) { nextGibTime = _time; };
 	int						GetGibTime() { return nextGibTime; };
 
+	idVec2					GetScreenAspectRatio() const;
+	float					CalculateUIAspectCorrection() const;
+	void					SetUIAspectRatio( idUserInterface *ui ) const;
+
 
 
 private:

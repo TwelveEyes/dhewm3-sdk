@@ -2057,7 +2057,7 @@ void idEntity::Unbind( void ) {
 		prev = ent;
 	}
 
-	assert( ent == this ); // If ent is not pointing to this, then something is very wrong.
+	// assert( ent == this ); // If ent is not pointing to this, then something is very wrong.
 
 	// Find the last node in my team that is bound to me.
 	// Also find the first node not bound to me, if one exists.

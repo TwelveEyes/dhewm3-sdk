@@ -473,12 +473,6 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view ) 
 	// place the sound origin for the player
 	gameSoundWorld->PlaceListener( view->vieworg, view->viewaxis, player->entityNumber + 1, gameLocal.slow.time, hud ? hud->State().GetString( "location" ) : "Undefined" );
 
-	// if the objective system is up, don't do normal drawing
-	if ( player->objectiveSystemOpen ) {
-		player->objectiveSystem->Redraw( gameLocal.fast.time );
-		return;
-	}
-
 	// hack the shake in at the very last moment, so it can't cause any consistency problems
 	renderView_t	hackedView = *view;
 	hackedView.viewaxis = hackedView.viewaxis * ShakeAxis();
@@ -487,6 +481,17 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view ) 
 	if ( gameLocal.portalSkyEnt.GetEntity() && gameLocal.IsPortalSkyAcive() && g_enablePortalSky.GetBool() ) {
 		renderView_t	portalView = hackedView;
 		portalView.vieworg = gameLocal.portalSkyEnt.GetEntity()->GetPhysics()->GetOrigin();
+
+		idMat3 portalAxis = gameLocal.portalSkyEnt.GetEntity()->GetPhysics()->GetAxis();
+		portalView.viewaxis *= portalAxis;
+
+		if ( gameLocal.portalSkyEnt.GetEntity()->spawnArgs.GetInt( "viewPortal" ) ) {
+			idVec3 viewPortOrg = gameLocal.portalSkyEnt.GetEntity()->spawnArgs.GetVector( "viewPortalOrigin" );
+			idVec3 playerViewOrg = view->vieworg;
+			idVec3 diff = ( viewPortOrg - playerViewOrg ) * portalAxis;
+
+			portalView.vieworg -= diff;
+		}
 
 		// setup global fixup projection vars
 		if ( 1 ) {
@@ -583,6 +588,19 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view ) 
 			renderSystem->DrawStretchPic( 0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 0.0f, 1.0f, 1.0f, bfgMaterial );
 		}
 
+	}
+
+	// if the objective system is up, don't do normal drawing
+	if ( player->objectiveSystemOpen ) {
+		player->objectiveSystem->Redraw( gameLocal.fast.time );
+	}
+
+	if ( player->itemSystemOpen ) {
+		player->itemSystem->Redraw( gameLocal.fast.time );
+	}
+
+	if ( player->textMessageSystemOpen ) {
+		player->textMessageSystem->Redraw( gameLocal.fast.time );
 	}
 
 	// test a single material drawn over everything
@@ -690,7 +708,16 @@ void idPlayerView::RenderPlayerView( idUserInterface *hud ) {
 	const renderView_t *view = player->GetRenderView();
 
 	SingleView( hud, view );
+	
+	if ( player->cameraGuiSystem && player->cameraGuiSystemOpen ) {
+		player->cameraGuiSystem->Redraw( gameLocal.fast.time );
+	}
+
 	ScreenFade();
+
+	if ( g_showSubtitles.GetBool() && player->subtitleSystemOpen ) {
+		player->subtitleSystem->Redraw( gameLocal.fast.time );
+	}
 
 	if ( net_clientLagOMeter.GetBool() && lagoMaterial && gameLocal.isClient ) {
 		renderSystem->SetColor4( 1.0f, 1.0f, 1.0f, 1.0f );

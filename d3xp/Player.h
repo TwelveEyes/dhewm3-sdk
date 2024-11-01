@@ -306,6 +306,16 @@ public:
 	idUserInterface *		hud;				// MP: is NULL if not local player
 	idUserInterface *		objectiveSystem;
 	bool					objectiveSystemOpen;
+	int						objectiveSystemOpenTime;
+	idUserInterface *		itemSystem;
+	bool					itemSystemOpen;
+	idUserInterface *		textMessageSystem;
+	bool					textMessageSystemOpen;
+	idUserInterface *		subtitleSystem;
+	bool					subtitleSystemOpen;
+	idUserInterface *		cameraGuiSystem;
+	bool					cameraGuiSystemOpen;
+	idStr					cameraGuiCamName;
 
 	int						weapon_soulcube;
 	int						weapon_pda;
@@ -689,6 +699,7 @@ private:
 	idEntity *				focusGUIent;
 	idUserInterface *		focusUI;				// focusGUIent->renderEntity.gui, gui2, or gui3
 	idAI *					focusCharacter;
+	idEntity *				focusClickable;
 	int						talkCursor;				// show the state of the focusCharacter (0 == can't talk/dead, 1 == ready to talk, 2 == busy talking)
 	int						focusTime;
 	idAFEntity_Vehicle *	focusVehicle;
@@ -740,6 +751,9 @@ private:
 
 	bool					selfSmooth;
 
+	idStr					itemSystemCallExit;
+	int						nextTriggerTime;
+
 	void					LookAtKiller( idEntity *inflictor, idEntity *attacker );
 
 	void					StopFiring( void );
@@ -747,6 +761,9 @@ private:
 	void					Weapon_Combat( void );
 	void					Weapon_NPC( void );
 	void					Weapon_GUI( void );
+	bool					ClickableCallScript ( idStr funcname, int delay );
+	void					ToggleItemSystem( void );
+	void					Weapon_Clickable( void );
 	void					UpdateWeapon( void );
 	void					UpdateSpectating( void );
 	void					SpectateFreeFly( bool force );	// ignore the timeout to force when followed spec is no longer valid
@@ -772,6 +789,10 @@ private:
 	void					ClearFocus( void );
 	void					UpdateFocus( void );
 	void					UpdateLocation( void );
+	void					UpdateClickables( void );
+	void					UpdateObjectiveSystem( void );
+	void					UpdateTextMessages( void );
+	void					UpdateCameraGui( void );
 	idUserInterface *		ActiveGui( void );
 	void					UpdatePDAInfo( bool updatePDASel );
 	int						AddGuiPDAData( const declType_t dataType, const char *listName, const idDeclPDA *src, idUserInterface *gui );
@@ -815,6 +836,9 @@ private:
 	void					Event_ToggleBloom( int on );
 	void					Event_SetBloomParms( float speed, float intensity );
 #endif
+	void					Event_ShowConsequences( void );
+	void					Event_SetViewAngles( const idVec3 &angles );
+	void					Event_GetEyeHeight( void );
 };
 
 ID_INLINE bool idPlayer::IsReady( void ) {

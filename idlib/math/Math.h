@@ -201,6 +201,8 @@ public:
 
 	static int					FloatHash( const float *array, const int numFloats );
 
+	static int					gcd( int a, int b );
+
 	static const float			PI;							// pi
 	static const float			TWO_PI;						// pi * 2
 	static const float			HALF_PI;					// pi / 2
@@ -927,6 +929,16 @@ ID_INLINE int idMath::FloatHash( const float *array, const int numFloats ) {
 		hash ^= ptr[i];
 	}
 	return hash;
+}
+
+ID_INLINE int idMath::gcd( int a, int b ) {
+	int R;
+	while ( ( a % b ) > 0 ) {
+		R = a % b;
+		a = b;
+		b = R;
+	}
+	return b;
 }
 
 #endif /* !__MATH_MATH_H__ */
