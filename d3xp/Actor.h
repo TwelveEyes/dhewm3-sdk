@@ -276,6 +276,8 @@ protected:
 	int						damageCap;
 #endif
 
+	bool					allowFootsteps;
+
 	virtual void			Gib( const idVec3 &dir, const char *damageDefName );
 
 							// removes attachments with "remove" set for when character dies

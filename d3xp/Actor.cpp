@@ -478,6 +478,8 @@ idActor::idActor( void ) {
 #ifdef _D3XP
 	damageCap = -1;
 #endif
+
+	allowFootsteps = true;
 }
 
 /*
@@ -907,6 +909,8 @@ void idActor::Save( idSaveGame *savefile ) const {
 	savefile->WriteInt(damageCap);
 #endif
 
+	savefile->WriteBool( allowFootsteps );
+
 }
 
 /*
@@ -1019,6 +1023,8 @@ void idActor::Restore( idRestoreGame *savefile ) {
 #ifdef _D3XP
 	savefile->ReadInt(damageCap);
 #endif
+
+	savefile->ReadBool( allowFootsteps );
 }
 
 /*
@@ -2475,7 +2481,7 @@ void idActor::PlayFootStepSound( void ) {
 	const char *sound = NULL;
 	const idMaterial *material;
 
-	if ( !GetPhysics()->HasGroundContacts() ) {
+	if ( !allowFootsteps || !GetPhysics()->HasGroundContacts() ) {
 		return;
 	}
 
