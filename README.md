@@ -30,9 +30,11 @@ the source under GPL; you can find these in their own branches:
 [Doom3: The Lost Mission](https://github.com/dhewm/dhewm3-sdk/tree/d3le) and
 [Sikkmod](https://github.com/dhewm/dhewm3-sdk/tree/sikkmod)
 
-In addition to this repository, there is also the LibreCoop mod that implements Coop
-gameplay for dhewm3: [LibreCoop Github for the source code](https://github.com/Stradex/librecoop)
-and [LibreCoop on ModDB which has the game data](https://www.moddb.com/mods/librecoop-dhewm3-coop).
+~~*In addition to this repository, there is also the LibreCoop mod that implements Coop
+gameplay for dhewm3: [LibreCoop Github for the source code](https://github.com/Stradex/librecoop)*~~  
+Currently **LibreCoop** is unmaintained upstream so there's a [LibreCoop branch in this repo](https://github.com/dhewm/dhewm3-sdk/tree/librecoop)
+that adds the latest changes from the dhewm3-sdk. 
+<!-- and [LibreCoop on ModDB which has the game data](https://www.moddb.com/mods/librecoop-dhewm3-coop). -->
 
 You can find Win32 DLLs and Linux x86_64 (amd64) `.so` libraries of those mods that work with
 dhewm3 1.5.x at [the dhewm3 Github release page](https://github.com/dhewm/dhewm3/releases/latest)
